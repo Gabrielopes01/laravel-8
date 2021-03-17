@@ -32,3 +32,6 @@
         @endforeach
     </tbody>
 </table>
+
+<hr>
+{{ $posts->links() }}
