@@ -14,5 +14,6 @@
     @method('delete')
     @csrf
     <button type="submit">Deletar o Post {{ $post->id }}</button>
+    <button type="button"><a href="{{ route('posts.index') }}" style="text-decoration: none">Voltar</a></button>
 </form>
 @endsection
