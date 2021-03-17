@@ -20,3 +20,4 @@
 <br>
 <br>
 <button type="submit">Salvar</button>
+<button type="button"><a href="{{ route('posts.index') }}" style="text-decoration: none">Voltar</a></button>
