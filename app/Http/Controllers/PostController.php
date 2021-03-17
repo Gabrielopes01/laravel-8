@@ -78,13 +78,14 @@ class PostController extends Controller
     }
 
     public function update(StoreUpdatePostRequest $request, $id) {
+
         if(!$post = Post::find($id)) {
             return redirect()->back();
         }
 
         $data = $request->all();
 
-        if ($request->photo->isValid()) {
+        if ($request->photo && $request->photo->isValid()) {
 
             if (Storage::exists($post->image)) {
                 Storage::delete($post->image);
