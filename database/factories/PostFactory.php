@@ -24,6 +24,7 @@ class PostFactory extends Factory
         return [
             'title' => $this->faker->unique()->name,
             'body' => $this->faker->sentence,
+            'photo' => $this->faker->unique()->word
         ];
     }
 }
