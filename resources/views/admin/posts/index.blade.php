@@ -1,3 +1,8 @@
+@extends('admin.layouts.app')
+
+@section('title', 'Listagem')
+
+@section('content')
 <button><a href="{{ route('posts.create') }}" style="text-decoration: none">Criar novo Post</a></button>
 <hr>
 <h1>Posts</h1>
@@ -47,3 +52,4 @@
 {{ $posts->links() }}    
 @endif
  
+@endsection

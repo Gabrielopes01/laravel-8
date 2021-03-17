@@ -1,3 +1,8 @@
+@extends('admin.layouts.app')
+
+@section('title', "Post $post->id")
+    
+@section('content')
 <h1>Detalhes do Post {{ $post->id }} </h1>
 
 <ul>
@@ -10,3 +15,4 @@
     @csrf
     <button type="submit">Deletar o Post {{ $post->id }}</button>
 </form>
+@endsection
