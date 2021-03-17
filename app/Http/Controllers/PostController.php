@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreUpdatePostRequest;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\str;
 
 class PostController extends Controller
 {
@@ -21,7 +23,22 @@ class PostController extends Controller
 
     public function store(StoreUpdatePostRequest $request) {
 
-        Post::create($request->all());
+        $data = $request->all();
+
+        if ($request->photo->isValid()) {
+
+            /*
+            $file = $request->photo->store('posts');
+            $data['photo'] = $file;
+            */
+
+            $nameFile = Str::of($request->title)->slug('-'). '.' .$request->photo->getClientOriginalExtension(); //Esse cliente pega a extesao
+
+            $file = $request->photo->storeAs('posts', $nameFile);
+            $data['photo'] = $file;
+        }
+
+        Post::create($data);
 
         return redirect()->route('posts.index')->with('message', 'Post Criado com Sucesso');
     }
@@ -39,6 +56,12 @@ class PostController extends Controller
         
         if(!$post = Post::find($id)) {
             return redirect()->route("posts.index");
+        }
+
+        if (Storage::exists($post->image)) {
+            Storage::delete($post->image);
+        } else {
+            Storage::delete(Post::where('id', $id)->first()->photo);
         }
 
         $post->delete();
@@ -59,7 +82,23 @@ class PostController extends Controller
             return redirect()->back();
         }
 
-        $post->update($request->all());
+        $data = $request->all();
+
+        if ($request->photo->isValid()) {
+
+            if (Storage::exists($post->image)) {
+                Storage::delete($post->image);
+            } else {
+                Storage::delete(Post::where('id', $id)->first()->photo);
+            }
+
+            $nameFile = Str::of($request->title)->slug('-'). '.' .$request->photo->getClientOriginalExtension(); //Esse cliente pega a extesao
+
+            $file = $request->photo->storeAs('posts', $nameFile);
+            $data['photo'] = $file;
+        }
+
+        $post->update($data);
 
         return redirect()->route('posts.index')->with('message', 'Post Atualizado com Sucesso');
     }

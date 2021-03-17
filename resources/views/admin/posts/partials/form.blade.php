@@ -16,4 +16,7 @@
 <textarea name="body" id="body" cols="30" rows="4" placeholder="Conteúdo">{{ $post->body ?? old('body') }}</textarea>
 <br>
 <br>
+<input type="file" name="photo" id="photo">
+<br>
+<br>
 <button type="submit">Salvar</button>

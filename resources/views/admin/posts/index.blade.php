@@ -27,8 +27,10 @@
     <thead>
         <tr>
             <th>Id</th>
+            <th>Imagem</th>
             <th>Título</th>
             <th>Corpo</th>
+            <th>Caminho</th>
             <th>Ações</th>
         </tr>
     </thead>
@@ -36,8 +38,14 @@
         @foreach ($posts as $post)
             <tr>
                 <td>{{ $post->id }}</td>
+                @if (file_exists('storage/'.$post->photo))
+                    <td><a href="{{ url("storage/{$post->photo}") }}"><img src="{{ url("storage/{$post->photo}") }}" alt="{{ $post->title }}" style="max-width: 100px; max-height: 120px"></a></td>
+                @else
+                    <td><a href="storage/posts/default.jpg"><img src="storage/posts/default.jpg" alt="{{ $post->title }}" style="max-width: 100px; max-height: 120px"></a></td>
+                @endif
                 <td>{{ $post->title }}</td>
                 <td>{{ $post->body }}</td>
+                <td>{{ $post->photo }}</td>
                 <td><a href="/posts/{{ $post->id }}">Detalhes</a> <a href="{{ route('posts.edit', $post->id) }}">Editar</a></td>
             </tr>
         @endforeach
