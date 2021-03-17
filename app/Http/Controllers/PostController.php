@@ -63,4 +63,15 @@ class PostController extends Controller
 
         return redirect()->route('posts.index')->with('message', 'Post Atualizado com Sucesso');
     }
+
+    public function search(Request $request) {
+
+        $filters = $request->except('_token');
+
+        $posts = Post::where('title', '=', "%$request->search%")
+                        ->orWhere('body', 'LIKE', "%$request->search%")
+                        ->paginate(20);
+        
+        return view('admin.posts.index', compact('posts', 'filters'));
+    }
 }

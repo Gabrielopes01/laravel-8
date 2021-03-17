@@ -12,6 +12,12 @@
     <p>{{ session('message') }}</p>
 @endif
 
+<form action="{{ route('posts.search') }}" method="post">
+    @csrf
+    <input type="text" name="search" placeholder="Filtrar:">
+    <button type="submit">Filtrar</button>
+</form>
+
 <table border=1>
     <thead>
         <tr>
@@ -34,4 +40,10 @@
 </table>
 
 <hr>
-{{ $posts->links() }}
+
+@if (isset($filters))
+{{ $posts->appends($filters)->links() }} 
+@else
+{{ $posts->links() }}    
+@endif
+ 
